@@ -3,27 +3,33 @@ import DatePicker from "react-datepicker";
 
 import "./styles.css"
 import "react-datepicker/dist/react-datepicker.css";
+import { useState } from "react";
 
 
 function SalesCard() {
+
+    const [fromDate, setFromDate] = useState<Date | null>(new Date(new Date().setDate(new Date().getDate()-365)));
+    const [toDate, setToDate] = useState<Date | null>(new Date());
+
     return (
         <div className="dsmeta-card">
             <h2 className="dsmeta-sales-title">Vendas</h2>
             <div>
                 <div className="dsmeta-form-control-container">
                     <DatePicker
-                        selected={new Date()}
-                        onChange={(date: Date) => { }}
+                        selected={fromDate}
+                        onChange={setFromDate}
                         className="dsmeta-form-control"
                         dateFormat="dd/MM/yyyy"
                     />
                 </div>
                 <div className="dsmeta-form-control-container">
                     <DatePicker
-                        selected={new Date()}
-                        onChange={(date: Date) => { }}
+                        selected={toDate}
+                        onChange={setToDate}
                         className="dsmeta-form-control"
                         dateFormat="dd/MM/yyyy"
+                        minDate={fromDate}
                     />
                 </div>
             </div>
