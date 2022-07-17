@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { request } from "../../utils/axiosConfig";
 import { Sale } from "../../models/Sale";
-import { BRL } from "../../utils/formatter";
+import { BRL, isoOnlyDate } from "../../utils/formatter";
 
 
 function SalesCard() {
@@ -18,9 +18,14 @@ function SalesCard() {
     const [sales, setSales] = useState<Sale[]>([]);
 
     useEffect(() => {
-        request.get('/sales')
-            .then(r => setSales(r.data.content));
-    }, []);
+
+        request.get(
+            '/sales', 
+            { params: { minDate: isoOnlyDate(fromDate), maxDate: isoOnlyDate(toDate) } }
+        ).then(
+            r => setSales(r.data.content)
+        );
+    }, [fromDate, toDate]);
 
     return (
         <div className="dsmeta-card">
